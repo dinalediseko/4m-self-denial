@@ -5,19 +5,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unlocking Me: I Surrender - 4M Digital Booklet</title>
-    <link rel="icon" href="images/4m logo.png" type="image">
+    <link rel="icon" href="images/4m logo.png" type="image" />
 
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Shrikhand&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&family=Shrikhand&display=swap"
         rel="stylesheet" />
+
     <style>
+        /* =========================================
+           1. CORE DESIGN SYSTEM
+           ========================================= */
         :root {
             --bg: #f9ffe3;
             --green: #014421;
             --light-green: #e1eba7;
+            --accent: #bcd64d;
+            --white: #ffffff;
         }
 
         * {
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
@@ -25,38 +36,7 @@
             color: var(--green);
             font-family: "Outfit", sans-serif;
             margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .actions {
-            margin-bottom: 20px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn {
-            background: var(--bg);
-            color: var(--green);
-            padding: 12px 25px;
-            border: none;
-            border-radius: 50px;
-            font-family: "Shrikhand", cursive;
-            cursor: pointer;
-            box-shadow: 0 5px 0 #bcd64d;
-            text-transform: uppercase;
-        }
-
-        /* Booklet Layout */
-        .booklet {
-            width: 100%;
-            max-width: 1200px;
-            background: var(--bg);
-            border-radius: 20px;
-            padding: 60px;
-            box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.2);
+            overflow-x: hidden;
         }
 
         h1,
@@ -68,84 +48,377 @@
             margin-top: 0;
         }
 
-        h1 {
-            font-size: 4rem;
-            text-align: center;
-            line-height: 0.9;
-            margin-bottom: 20px;
-        }
-
         h2 {
-            font-size: 2rem;
+            font-size: 2.4rem;
             border-bottom: 4px solid var(--green);
             display: inline-block;
+            margin-bottom: 25px;
+        }
+
+        p {
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        /* Stylized Links */
+        a {
+            color: var(--green);
+            text-decoration: none;
+            border-bottom: 2px solid var(--accent);
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        a:hover {
+            background-color: var(--accent);
+        }
+
+        .video-link {
+            display: inline-block;
+            background-color: var(--light-green);
+            color: var(--green);
+            padding: 4px 10px;
+            border-radius: 8px;
+            border-bottom: none;
+            margin-top: 4px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 2px 2px 0px var(--accent);
+        }
+
+        .video-link:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0px var(--accent);
+            background-color: var(--bg);
+        }
+
+        /* =========================================
+           2. HERO VIDEO BACKGROUND
+           ========================================= */
+        .hero {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            object-fit: cover;
+            opacity: 0.5;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom,
+                    rgba(1, 68, 33, 0.4),
+                    var(--green));
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: var(--bg);
+            padding: 20px;
+            max-width: 900px;
+        }
+
+        .hero-title {
+            font-size: clamp(3.5rem, 10vw, 6rem);
+            line-height: 1;
+            text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+        }
+
+        /* =========================================
+           3. 30 SEC AUTO-SWIPE STORIES (HORIZONTAL)
+           ========================================= */
+        .stories-section {
+            background: #014421;
+            padding: 60px 0;
+            width: 100vw;
+        }
+
+        .stories-header {
+            text-align: center;
+            color: var(--accent);
             margin-bottom: 20px;
         }
 
-        .section {
+        .stories-wrapper {
+            width: 90%;
+            max-width: 380px;
+            height: 650px;
+            margin: 0 auto;
+            position: relative;
+            border-radius: 30px;
+            border: 5px solid var(--accent);
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(188, 214, 77, 0.2);
+        }
+
+        .story-progress-container {
+            position: absolute;
+            top: 15px;
+            left: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+            z-index: 10;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: white;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .stories-container {
+            display: flex;
+            height: 100%;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+        }
+
+        .stories-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .story-slide {
+            min-width: 100%;
+            height: 100%;
+            scroll-snap-align: start;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+            background: radial-gradient(circle, #026331 0%, #012b15 100%);
+        }
+
+        .story-slide h3 {
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+
+        .story-slide h2 {
+            border: none;
+            color: white;
+            font-size: 2.2rem;
+            line-height: 1.1;
+            margin-top: 10px;
+        }
+
+        .story-slide p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* =========================================
+           4. LAYOUT & PDF (INDESIGN STYLE)
+           ========================================= */
+        .booklet {
+            background: var(--bg);
+            max-width: 1100px;
+            margin: -40px auto 60px;
+            padding: 80px;
+            border-radius: 30px;
+            position: relative;
+            z-index: 20;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .toc-container {
+            background: white;
+            padding: 40px;
+            border: 3px solid var(--green);
+            border-radius: 20px;
             margin-bottom: 60px;
+            box-shadow: 10px 10px 0px var(--accent);
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
+        .toc-container ol {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--green);
+            line-height: 2;
         }
 
-        .read-toggle {
+        .toc-container a {
             color: inherit;
-            text-decoration: underline;
-            cursor: pointer;
-            font-weight: 500;
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
         }
 
-        .read-toggle:hover {
-            opacity: 0.7;
+        .toc-container a:hover {
+            border-bottom-color: var(--green);
+            background-color: transparent;
         }
 
-        /* Tables & Lists */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            margin: 25px 0;
             background: white;
-            border-radius: 10px;
-            overflow: hidden;
         }
 
         th,
         td {
             border: 2px solid var(--green);
-            padding: 12px;
+            padding: 15px;
             text-align: left;
-            vertical-align: top;
         }
 
         th {
             background: var(--green);
-            color: var(--bg);
+            color: white;
             font-family: "Shrikhand";
         }
 
-        .video-link {
-            display: inline-block;
-            margin-top: 5px;
-            color: var(--green);
-            font-weight: bold;
+        .print-only {
+            display: none;
+        }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 20mm;
+            }
+
+            body {
+                background: white !important;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            .print-only {
+                display: block;
+            }
+
+            .floating-cta {
+                display: none !important;
+                /* Hide floating buttons in download */
+            }
+
+            .booklet {
+                box-shadow: none;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            .page-header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                border-bottom: 1px solid #014421;
+                font-size: 9pt;
+                padding-bottom: 5px;
+                color: #014421;
+                text-align: right;
+            }
+
+            .page-footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                border-top: 1px solid #ccc;
+                font-size: 9pt;
+                padding-top: 5px;
+                text-align: center;
+            }
+
+            .divider-page {
+                page-break-before: always;
+                height: 100vh;
+                display: flex !important;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                background: #014421 !important;
+                color: #f9ffe3 !important;
+                text-align: center;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .cover-page {
+                page-break-before: avoid;
+                /* So it starts right away */
+            }
+
+            .accordion-content {
+                max-height: none !important;
+                display: block !important;
+                padding: 20px !important;
+                border-top: 1px solid #014421;
+            }
+
+            /* Print link styling */
+            a {
+                text-decoration: underline !important;
+                text-decoration-color: #bcd64d !important;
+                text-decoration-thickness: 2px !important;
+                color: #014421 !important;
+            }
+
+            .video-link {
+                background: #e1eba7 !important;
+                border: 1px solid #014421 !important;
+                box-shadow: none !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        .fbtn {
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-family: "Shrikhand";
+            border: none;
+            cursor: pointer;
+            background: var(--green);
+            color: white;
+            box-shadow: 4px 4px 0 var(--accent);
+            transition: 0.2s;
             text-decoration: none;
-            border-bottom: 2px solid var(--green);
+            display: inline-block;
         }
 
-        .video-link:hover {
-            background: var(--light-green);
-        }
-
-        .day-card {
-            background: var(--light-green);
-            padding: 20px;
-            border-radius: 15px;
-            border-left: 10px solid var(--green);
-            margin-bottom: 20px;
+        .fbtn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 var(--accent);
+            background-color: var(--green);
+            color: white;
         }
 
         /* Accordion Style Redesign */
@@ -192,10 +465,8 @@
             line-height: 1.6;
         }
 
-        /* JavaScript will toggle this class */
         .accordion-item.active .accordion-content {
             max-height: 1500px;
-            /* Large enough to fit content */
             padding: 20px;
             border-top: 2px dashed var(--green);
         }
@@ -228,357 +499,871 @@
             margin: 10px 0;
         }
 
-        /* Submission Section */
-        .submission-area {
+        /* Cinema Style Video Preview Section */
+        .preview-section {
+            width: 100%;
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .preview-stage {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
             background: var(--green);
+            border-radius: 25px;
+            overflow: hidden;
             color: var(--bg);
-            padding: 50px;
-            border-radius: 20px;
-            margin-top: 40px;
-            width: 100%;
-        }
-
-        .submission-area h2 {
-            border-color: var(--bg);
-            color: var(--bg);
-        }
-
-        .form-container {
-            width: 100%;
-            height: 800px;
-            background: var(--bg);
-            border-radius: 15px;
-            padding: 10px;
-        }
-
-        /* Print Logic for Extended PDF */
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-            }
-
-            .booklet {
-                box-shadow: none;
-                border: none;
-                width: 100%;
-            }
-
-            .btn-download {
-                display: none;
-            }
-
-            .accordion-content {
-                max-height: none !important;
-                padding: 20px !important;
-                display: block !important;
-                border-top: 2px dashed var(--green) !important;
-            }
-
-            .accordion-header {
-                background: #f0f0f0;
-                border-bottom: 2px solid var(--green);
-            }
+            box-shadow: 12px 12px 0 var(--accent);
+            margin-bottom: 30px;
         }
 
         @media (max-width: 800px) {
-            .grid {
+            .preview-stage {
                 grid-template-columns: 1fr;
             }
         }
 
-        @media print {
+        .preview-info {
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-            .actions,
-            .submission-area {
-                display: none;
-            }
+        .preview-tag {
+            background: var(--accent);
+            color: var(--green);
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-weight: 900;
+            font-size: 0.75rem;
+            width: fit-content;
+            margin-bottom: 15px;
+        }
 
-            .booklet {
-                box-shadow: none;
-                border: 2px solid var(--green);
-            }
+        .preview-video-container {
+            position: relative;
+            aspect-ratio: 16/9;
+            background: #000;
+        }
+
+        .preview-video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .video-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 3px solid var(--green);
+            transition: 0.3s;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 8px 8px 0 var(--accent);
+        }
+
+        /* Floating Buttons */
+        .floating-cta {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 9999;
+        }
+
+        .fab {
+            display: inline-block;
+            padding: 14px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            box-shadow: 6px 6px 0px #bcd64d;
+            transition: all 0.2s ease;
+            font-family: "Outfit", sans-serif;
+        }
+
+        .fab:hover {
+            transform: translate(-3px, -3px);
+            background-color: var(--accent) !important;
+            color: var(--green) !important;
+        }
+
+        .fab-primary {
+            background: #014421;
+            color: #f9ffe3;
+        }
+
+        .fab-secondary {
+            background: #f9ffe3;
+            color: #014421;
+            border: 2px solid #014421;
+        }
+
+        .fab-whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .submission-cta {
+            text-align: center;
+            padding: 40px;
+            background: var(--green);
+            border-radius: 20px;
+            margin-top: 30px;
+        }
+
+        .btn-submit {
+            display: inline-block;
+            background-color: #f9ffe3;
+            color: #014421;
+            font-family: 'Shrikhand', cursive;
+            font-size: 1.8rem;
+            padding: 20px 50px;
+            text-decoration: none;
+            border-radius: 50px;
+            border: 4px solid #014421;
+            box-shadow: 8px 8px 0px #bcd64d;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-submit:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px #000;
+            background-color: #fff;
+        }
+
+        .btn-submit:active {
+            transform: translate(4px, 4px);
+            box-shadow: none;
+        }
+
+        .deadline-text {
+            color: #f9ffe3;
+            margin-top: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
     </style>
 </head>
 
 <body>
-    <div class="actions">
-        <button class="btn" onclick="window.print()">
-            Download Digital Booklet
-        </button>
+    <div class="print-only page-header">
+        UNLOCKING ME: I SURRENDER • 4M Digital Booklet
+    </div>
+    <div class="print-only page-footer">
+        #4M_YPD_SelfDenial_2026 • Page <span class="pageNumber"></span>
     </div>
 
-    <div class="booklet">
-        <header style="text-align: center; margin-bottom: 80px">
-            <h1 style="font-size: 1.5rem; font-weight: bold">Unlocking Me:<br />I Surrender</h1>
-            <p style="font-size: 1.5rem; font-weight: bold">
-                The MPowered Conference: 2026 YPD Self-Denial Amplified
+    <div class="print-only divider-page cover-page">
+        <h1 style="font-size: 5rem; margin-bottom: 20px; text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);">UNLOCKING
+            ME:<br />I SURRENDER</h1>
+        <p style="font-size: 2rem; letter-spacing: 4px; font-weight: 700;">Isaiah 22:22</p>
+    </div>
+
+    <section class="hero no-print">
+        <video autoplay loop muted playsinline class="hero-video">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-wavy-green-lines-4351-high.mp4"
+                type="video/mp4" />
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">UNLOCKING ME:<br />I SURRENDER</h1>
+            <p style="font-size: 1.4rem; letter-spacing: 4px; margin-top: 20px">
+                Isaiah 22:22
             </p>
-        </header>
+            <button onclick="window.print()" class="fbtn" style="margin-top: 30px; font-size: 1.2rem">
+                Download Program (PDF)
+            </button>
+        </div>
+    </section>
 
-        <div class="grid">
-            <div class="section">
-                <h2>1. Historical Statement</h2>
-                <p><strong>The "Big Idea" (1948)</strong></p>
-                <p>
-                    A long time ago, a lady named Mrs. Hazel Gomez had a brilliant idea.
-                    She thought, "What if all the young people in our church saved a
-                    little bit of money to help other students go to school?" Another
-                    leader, Mrs. Alma A. Polk (the very first Connectional YPD
-                    Director), loved the idea and made it official. In January 1948, the
-                    very first Self Denial program happened. That's over 75 years ago!
-                </p>
-                <p>
-                    Today, it's not just about raising money; it's about showing off
-                    your talents. The program now includes Boy-Girl of the Year, Writing
-                    & Art, and Digital Fun/Virtual Arts competitions.
-                </p>
-            </div>
-            <div class="section">
-                <h2>2. Leadership Greeting</h2>
-                <p>
-                    <strong>Welcome to the Self-Denial Amplified Rollout, MPowered YPD!</strong>
-                </p>
-
-                <p>
-                    Have you ever felt like a heavy door stands between you and your best self—held shut by fear, doubt,
-                    or the worry of what others think?
-                </p>
-
-                <p>
-                    This year, our theme, “Unlocking Me: I Surrender” (inspired by Isaiah 22:22), reminds us that we
-                    already have the key.
-                    Self-denial isn’t just about giving things up; it’s about making room—clearing out fear,
-                    distractions, and old habits
-                    so God can do something greater in our lives.
-                </p>
-
-                <!-- Hidden content -->
-                <div class="read-more-content" style="display: none;">
-                    <p style="font-style: italic;">
-                        "I will place on his shoulder the key to the house of David; what he opens no one can shut,
-                        and what he shuts no one can open." — Isaiah 22:22
-                    </p>
-
+    <section class="stories-section no-print">
+        <h2 class="stories-header" style="border: none">Daily Focus Areas</h2>
+        <div class="stories-wrapper">
+            <div class="story-progress-container" id="progress-bars"></div>
+            <div class="stories-container" id="story-scroll">
+                <div class="story-slide">
+                    <h3>THURS, 07 MAY</h3>
+                    <h2>THE KEY IS ALWAYS IN GOD'S HAND</h2>
                     <p>
-                        Instead of treating this as a once-a-year practice, we’re embracing it as a lifestyle for
-                        everyone.
-                        Join the journey by expressing your creativity in our upcoming contest and by taking part in
-                        Unpacking the Spirit from 7–14 May, where we’ll explore what it truly means to live unlocked.
-                        The question is: <strong>are you ready to open the door?</strong>
+                        This day centers on the truth that nothing is missing from your
+                        life. God has already placed the gifts, strength, and purpose you
+                        need within you, and this is about awakening to that truth. God
+                        has the keys.
                     </p>
                 </div>
-
-                <span class="read-toggle" onclick="toggleReadMore()">Read more</span>
+                <div class="story-slide">
+                    <h3>FRI, 08 MAY</h3>
+                    <h2>UNLOCKING SELF-LIMITING BEHAVIORS</h2>
+                    <p>
+                        Begin to identify the mindsets, fears, and beliefs that have
+                        quietly restricted your growth and make a conscious decision to
+                        release them.
+                    </p>
+                </div>
+                <div class="story-slide">
+                    <h3>SAT, 09 MAY</h3>
+                    <h2>THE POWER OF "I AM READY"</h2>
+                    <p>
+                        This day is about shifting from hesitation to willingness,
+                        understanding that readiness is not about being perfect, but about
+                        being open and available to God's leading.
+                    </p>
+                </div>
+                <div class="story-slide">
+                    <h3>SUN, 10 MAY</h3>
+                    <h2>SELF-DENIAL SUNDAY</h2>
+                    <p>
+                        Time for Worship. Carve out
+                        time during the Worship
+                        Service for young people to
+                        give a testimony about how
+                        this season of Self Denial has
+                        impacted their lives.
+                    </p>
+                </div>
+                <div class="story-slide">
+                    <h3>MON, 11 MAY</h3>
+                    <h2>RECOGNIZING
+                        THE VOICE OF
+                        "NOT YET"</h2>
+                    <p>
+                        You learn to recognize and
+                        quiet the voices of doubt, fear,
+                        and procrastination that delay
+                        obedience and keep you stuck.
+                        Recognizing God's timing.
+                    </p>
+                </div>
+                <div class="story-slide">
+                    <h3>TUES, 12 MAY</h3>
+                    <h2>MOMENTUM:
+                        MOVING LIKE I
+                        MEAN IT</h2>
+                    <p>
+                        Focus moves from intention to
+                        action, reminding you that
+                        consistent, purposeful
+                        movement is what builds
+                        confidence and progress.
+                    </p>
+                </div>
+                <div class="story-slide">
+                    <h3>WED, 13 MAY</h3>
+                    <h2>BECOMING WHO I
+                        WAS AFRAID TO
+                        BE</h2>
+                    <p>
+                        This day invites you to face
+                        fear with courage and step into
+                        the fuller version of who you
+                        were created to be, even when
+                        growth feels uncomfortable.
+                    </p>
+                </div>
+                <div class="story-slide">
+                    <h3>THURS, 14 MAY</h3>
+                    <h2>LIVING
+                        UNLOCKED,
+                        WALKING
+                        UNSTOPPABLE</h2>
+                    <p>
+                        You step forward with
+                        confidence and freedom,
+                        embracing a life led by faith,
+                        authority, and a deep sense of
+                        purpose.
+                    </p>
+                </div>
             </div>
         </div>
+        <p style="
+          color: white;
+          text-align: center;
+          margin-top: 15px;
+          opacity: 0.6;
+          font-size: 0.9rem;
+        ">
+            Swipe to skip
+        </p>
+    </section>
 
-        <div class="section">
-            <h2>3. Keys to Self-Denial</h2>
-            <div class="grid">
-                <div class="day-card">
-                    <strong>A Daily "No":</strong> Saying "no" when desires go against
-                    God's Word, rejecting ungodly thoughts like resentment and pride,
-                    and turning away from worldly passions.
-                </div>
-                <div class="day-card">
-                    <strong>A Daily "Yes":</strong> Praying on purpose, making choices
-                    that show the Fruit of the Spirit, and setting boundaries that
-                    protect your body as a temple.
-                </div>
+    <div class="booklet">
+        <section id="toc" class="section">
+            <h2>Table of Contents</h2>
+            <div class="toc-container">
+                <ol>
+                    <li><a href="#history">1. Historical Statement</a></li>
+                    <li><a href="#greeting">2. Leadership Greeting</a></li>
+                    <li><a href="#keys">3. Keys to Self-Denial</a></li>
+                    <li><a href="#focus">4. Daily Themes & Program</a></li>
+                    <li><a href="#program">5. Recommendations & Watchlist</a></li>
+                    <li><a href="#timeline">6. Timeline</a></li>
+                    <li><a href="#contest">7. Contest Expressions</a></li>
+                </ol>
             </div>
+        </section>
+
+        <div class="print-only divider-page">
+            <h1 style="font-size: 5rem">PART 1:<br />MISSION</h1>
         </div>
 
-        <div class="section">
-            <h2>4. Self-Denial Timeline</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Event</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>24 April, 2026</td>
-                        <td>
-                            Contest Submissions due for Feedback at the Becoming The Light Seminar & Leadership Indaba
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>30 April, 2026</td>
-                        <td>Self-Denial Week Program Released</td>
-                    </tr>
-                    <tr>
-                        <td>2 May, 2026</td>
-                        <td>Self-Denial Month Virtual Kick-Off</td>
-                    </tr>
-                    <tr>
-                        <td>7-14 May, 2026</td>
-                        <td>Self-Denial Week</td>
-                    </tr>
-                    <tr>
-                        <td>15 May 2026, 23:59</td>
-                        <td>Final Contest Submission Deadline (MPowered Conference)</td>
-                    </tr>
-                    <tr>
-                        <td>17 May 2026</td>
-                        <td>Virtual session announcing results</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <section id="history" class="section">
+            <h2>1. Historical Statement</h2>
+            <p>Self Denial began as an inspirational idea suggested by Mrs. Hazel Gomez, wife of Bishop Joseph Gomez.
+                The idea transformed into a reality under the leadership of Mrs. Alma A. Polk, the first Connectional
+                YPD Director. Mrs. Mamie Aiken continued the project. The first Self Denial Program was held in January
+                1948. The program later transitioned into Self Denial Week and is observed each year during the week of
+                May 7th-14th.</p>
+            <p>That's over 75 years ago! With the world becoming a more connected global community through technology
+                and social media platforms, the Self Denial Program has grown to keep pace in the digital age. In a
+                world where so many things are available electronically, our young people must be technologically
+                literate. As a result, Director Sherrell Crawford and Second Vice-President Brian Tukes added a new
+                Virtual Arts Competition to the Self Denial Contests. Participants could now showcase their video
+                production, editing, and computer skills. Under the leadership of the Second Vice President, Jordan
+                Deveaux, and Director Wanda Ringgold, the program continued to promote service to humankind and
+                inclusivity to all.</p>
+        </section>
 
-        <div class="section">
-            <h2>5. Self-Denial Week Focus</h2>
+        <section id="greeting" class="section">
+            <h2>2. Leadership Greeting</h2>
             <p>
-                Check out the daily releases below. Click the titles to watch (links will be live during the week)!
+                Welcome to the MPowered YPD 2026 Self-Denial Program. This year, our theme, “Unlocking Me: I Surrender”
+                (inspired by Isaiah 22:22), reminds us that we already have the key. Self-denial isn’t just about giving
+                things up; it’s about making room—clearing out fear, distractions, and old habits so God can do
+                something greater in our lives.
             </p>
 
-            <div class="day-card">
-                <strong>Thurs, 7 May: The Key Is Always In God's Hand</strong>
-                <br /><a href="#" class="video-link">9AM: <em>Top of the Monzaa</em> Video Release</a>
-                <br /><a href="#" class="video-link">3PM: <em>Stars Pray</em> Poster/Video Release</a>
-            </div>
+            <i>"I will place on his shoulder the key to the house of David; what he opens no one can shut, and what he
+                shuts no one can open."</i>
+            <p>— Isaiah 22:22</p>
 
-            <div class="day-card">
-                <strong>Fri, 8 May: Unlocking Self-Limiting Behaviors</strong>
-                <br /><a href="#" class="video-link">9AM: <em>Top of the Monzaa</em> Video Release</a>
-                <br /><a href="#" class="video-link">3PM: <em>Stars Pray</em> Poster/Video Release</a>
-            </div>
-
-            <div class="day-card">
-                <strong>Sat, 9 May: The Power of "I Am Ready"</strong>
-                <br /><a href="#" class="video-link">9AM: <em>Top of the Monzaa</em> Video Release</a>
-                <br /><a href="#" class="video-link">3PM: <em>Stars Pray</em> Poster/Video Release</a>
-            </div>
-
-            <div class="day-card">
-                <strong>Sun, 10 May: Self Denial Sunday</strong>
-                <br /><a href="#" class="video-link">9AM: <em>Top of the Monzaa</em> Video Release</a>
-                <br /><a href="#" class="video-link">3PM: <em>Stars Pray</em> Poster/Video Release</a>
-            </div>
-
-            <p>
-                <em>(Schedule continues through 14th May with daily 9AM, 3PM, and 6PM
-                    sessions)</em>
+            <p>Instead of treating this as a once-a-year practice, we’re embracing it as a lifestyle: <br>
+                <i>Self-Denial ase beke ke lifestyle</i>
             </p>
-        </div>
+        </section>
 
-        <div class="section">
-            <h2>6. Reading Recommendations</h2>
-            <div class="grid">
-                <div>
-                    <h4>Sunbeams & Allen Stars</h4>
-                    <ul>
-                        <li><strong>How Many Ways Can You Say Hello?</strong> by Refiloe Moahloli</li>
-                        <li><strong>Journey to Jo'burg</strong> by Beverley Naidoo</li>
-                        <li><strong>Ouma Ruby's Secret</strong> by Chris van Wyk</li>
-                        <li><strong>Mpumi's Magic Beads</strong> by Lebohang Masango</li>
-                    </ul>
+        <section id="keys" class="section">
+            <div class="section">
+                <h2>3. Keys to Self-Denial</h2>
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>A Daily "No":</h3>
+                        <div class="icon"></div>
+                    </div>
+                    <div class="accordion-content">
+                        <p>
+                            Saying "no" when desires go against
+                            God's Word, rejecting ungodly thoughts like resentment and pride,
+                            and turning away from worldly passions.
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <h4>Youth & Young Adults</h4>
-                    <ul>
-                        <li><strong>When the Ground Is Hard</strong> by Malla Nunn</li>
-                        <li><strong>Born a Crime</strong> by Trevor Noah</li>
-                        <li><strong>I Write What I Like</strong> by Steve Biko</li>
-                        <li><strong>Snitch</strong> by Edyth Bulbring</li>
-                    </ul>
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>A Daily "Yes":</h3>
+                        <div class="icon"></div>
+                    </div>
+                    <div class="accordion-content">
+                        <p>
+                            Praying on purpose, making choices
+                            that show the Fruit of the Spirit, and setting boundaries that
+                            protect your body as a temple.
+                        </p>
+                    </div>
                 </div>
             </div>
+        </section>
+
+        <div class="print-only divider-page">
+            <h1 style="font-size: 5rem">DAILY FOCUS AREAS</h1>
         </div>
 
-        <div class="section">
-            <h2>7. Self-Denial Watchlist</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Theme</th>
-                        <th>Sunbeams & Stars</th>
-                        <th>Youth & Young Adults</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Thurs, 7 May</td>
-                        <td>The Key Is Always In God's Hand</td>
-                        <td><a href="http://www.youtube.com/watch?v=Hd0s6gBDyc4" class="video-link">The Fiery
-                                Furnace</a>Superbook</td>
-                        <td><a href="http://www.youtube.com/watch?v=YWT34Z0PvCA" class="video-link">My Father Is in
-                                Charge</a> Rorisang Thandekiso</td>
-                    </tr>
-                    <tr>
-                        <td>Fri, 8 May</td>
-                        <td>Unlocking Self-Limiting Behaviors</td>
-                        <td><a href="http://www.youtube.com/watch?v=wTglXGJ0xxo" class="video-link">Gideon: The
-                                Warrior</a>Superbook</td>
-                        <td><a href="http://www.youtube.com/watch?v=hkr1clGVLco" class="video-link">There's a War Inside
-                                Me</a> Khaya Mthethwa</td>
-                    </tr>
-                    <tr>
-                        <td>Sat, 9 May</td>
-                        <td>The Power of "I Am Ready"</td>
-                        <td><a href="http://www.youtube.com/watch?v=dMoekXiJw_A" class="video-link">Samuel and the Call
-                                of God</a>Superbook</td>
-                        <td><a href="http://www.youtube.com/watch?v=xTGRPLdSb4w" class="video-link">Stay Awake</a>
-                            Philip Mitchell</td>
-                    </tr>
-                    <tr>
-                        <td>Sun, 10 May</td>
-                        <td>Self Denial Sunday</td>
-                        <td><a href="http://www.youtube.com/watch?v=9H6j-HsV8jk" class="video-link">Peter's
-                                Denial</a>Superbook</td>
-                        <td><a href="http://www.youtube.com/watch?v=VgEuTSS1HRc" class="video-link">God First
-                            </a>Rorisang Thandekiso</td>
-                    </tr>
-                    <tr>
-                        <td>Mon, 11 May</td>
-                        <td>The Voice of "Not Yet"</td>
-                        <td><a href="http://www.youtube.com/watch?v=-YXtoJHPe2c" class="video-link">Lazarus</a>Superbook
-                        </td>
-                        <td><a href="http://www.youtube.com/watch?v=j2BUzGcC1ig" class="video-link">The Power of
-                                Prayer</a> Uviwe Mkosana</a></td>
-                    </tr>
-                    <tr>
-                        <td>Tues, 12 May</td>
-                        <td>Momentum: Moving Like I Mean It</td>
-                        <td><a href="http://www.youtube.com/watch?v=BYANFchuQeQ" class="video-link">The Walls of
-                                Jericho</a>Superbook</td>
-                        <td><a href="http://www.youtube.com/watch?v=4up1kCSyG34" class="video-link">Growing Through
-                                Storms</a> Philip Mitchell</td>
-                    </tr>
-                    <tr>
-                        <td>Wed, 13 May</td>
-                        <td>Becoming Who I Was Afraid To Be</td>
-                        <td><a href="http://www.youtube.com/watch?v=OjqXb9jAZxI" class="video-link">Esther: For Such a
-                                Time as This</a>Superbook</td>
-                        <td><a href="http://www.youtube.com/watch?v=GAC-USf5o4k" class="video-link">IHAN Session</a>
-                            Rorisang Thandekiso</td>
-                    </tr>
-                    <tr>
-                        <td>Thurs, 14 May</td>
-                        <td>Living Unlocked, Walking Unstoppable</td>
-                        <td><a href="http://www.youtube.com/watch?v=32_Izk21ktw" class="video-link">A Giant
-                                Adventure</a> Superbook</td>
-                        <td><a href="http://www.youtube.com/watch?v=vNoO3YQAPNM" class="video-link">Break Free</a>
-                            Philip Mitchell</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <section id="focus" class="section">
+            <div class="section">
+                <h2>4. Daily Themes <br> & Program</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Overview</th>
+                            <th>Prayer</th>
+                            <th>Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="day">7 May, Thursday<br><strong>The Key Is Always In God's Hand</strong><br>2
+                                Timothy 1:6-7
+                                <br />
+                                <a href="#" class="video-link"><strong>9AM:</strong> <em>Top of the Monzaa</em></a>
+                                <br />
+                                <a href="#" class="video-link"><strong>3PM:</strong> <em>Stars Pray</em></a>
+                                <br />
+                                <a href="#" class="video-link"><strong>6PM:</strong> <em>Self-Denial Amplified</em></a>
+                            </td>
+                            <td>This day is about realization and awakening. You are not waiting on God to give you
+                                something new; you are recognizing what He has already deposited inside you. Fear,
+                                insecurity, and comparison may have distracted you, but the truth is this: God equipped
+                                you before He ever called you. Your gifts, voice, strength, and authority are already
+                                present, waiting to be activated.</td>
+                            <td>Lord, thank You for trusting me with the gifts You placed inside me. Forgive me for the
+                                times I doubted myself or buried what You gave me out of fear. Open my eyes to clearly
+                                see whom You created me to be, and give me the courage to steward my gifts with
+                                confidence and gratitude. Amen.</td>
+                            <td>Stand before a mirror and slowly speak five identity statements rooted in God's truth
+                                (for example: I am equipped. I am chosen. I am capable. I am called. I am trusted by
+                                God). After each statement, pause and ask yourself: <em>Do I believe this?</em> Journal
+                                what resistance you feel and invite God into that space. Repeat the statements again,
+                                this time speaking them as a declaration, not a question.</td>
+                        </tr>
 
-        <div class="section">
-            <h2>8. Contest Expressions</h2>
+                        <tr>
+                            <td class="day">8 May, Friday<br><strong>Unlocking Self-Limiting
+                                    Behaviors</strong><br>Philippians 4:13
+                                <br />
+                                <a href="#" class="video-link"><strong>9AM:</strong> <em>Top of the Monzaa</em></a>
+                                <br />
+                                <a href="#" class="video-link"><strong>3PM:</strong> <em>Stars Pray</em></a>
+                                <br />
+                                <a href="#" class="video-link"><strong>6PM:</strong> <em>Self-Denial Amplified</em></a>
+                            </td>
+                            <td>Limitations are rarely physical. They are mental, emotional, and spiritual strongholds
+                                formed by past experiences, failures, or fear. These locks have kept you from moving
+                                forward, even when the door was open. Today, you confront those limits head-on. You are
+                                not breaking habits; you are breaking agreements with mindsets that told you "you
+                                can't." Through Christ, those limitations no longer have authority over you.</td>
+                            <td>Heavenly Father, reveal every limitation I have accepted that did not come from You.
+                                Show me where fear has shaped my thinking and where I have settled for less than what
+                                You promised. I surrender these mindsets to You and ask You to renew my thoughts with
+                                Your truth and strength. Amen.</td>
+                            <td>Write one limitation in each area: mental, emotional, spiritual, physical, and
+                                financial. <br><br>Next to each one, write:<br>• Where did this belief come from?<br>•
+                                What does God say about the limitation?<br>• Finish by writing a faith declaration for
+                                each area you identified and pray about each one.</td>
+                        </tr>
+
+                        <tr>
+                            <td class="day">9 May, Saturday<br><strong>The Power of "I AM Ready"</strong><br>Isaiah
+                                6:8<br />
+                                <a href="#" class="video-link"><strong>9AM:</strong> <em>Top of the Monzaa</em></a>
+                                <br />
+                                <a href="#" class="video-link"><strong>3PM:</strong> <em>Stars Pray</em></a>
+                                <br />
+                                <a href="#" class="video-link"><strong>6PM:</strong> <em>Self-Denial Amplified</em></a>
+                            </td>
+                            <td>Readiness is not about having all the answers — it's about having a willing heart. God
+                                is not looking for perfection; He is looking for availability. When you say "I am
+                                ready," you surrender control and trust God to lead you step by step. This is the moment
+                                where hesitation turns into obedience, and waiting turns into movement.</td>
+                            <td>Lord, I confess that sometimes I wait until I feel ready instead of trusting You to
+                                prepare me. Today, I place my yes on the altar. Align my heart with Your will, quiet my
+                                fear, and help me trust You with what comes next. I am ready because You are with me.
+                                Amen.</td>
+                            <td>Sit quietly with your hands open on your lap. Close your eyes and breathe deeply.
+                                <br><br>Ask God: <em>What are You inviting me into right now?</em> Sit with whatever
+                                comes up; no rushing, no correcting. Write down any thoughts, emotions, or impressions
+                                afterward.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="day">10 May, Sunday<br><strong>Self Denial Sunday</strong><br>Luke 9:23
+                                <br />
+                                <a href="#" class="video-link"><strong>9AM:</strong> <em>Top of the Monzaa</em></a>
+                                <br />
+                                <a href="#" class="video-link"><strong>3PM:</strong> <em>Stars Pray</em></a>
+                                <br />
+                                <a href="#" class="video-link"><strong>6PM:</strong> <em>Self-Denial Amplified</em></a>
+                            </td>
+                            <td>Self-denial is not about losing yourself. It is about surrendering what competes with
+                                God so you can become who He's calling you to be. Today is a call to lay down pride,
+                                distractions, and control in exchange for deeper obedience, clarity, and spiritual
+                                strength.</td>
+                            <td>Father God, I come before You just as I am. I lay down fear, self-consciousness,
+                                distractions, and control. Unlock my heart where it has been guarded. Unlock my mouth
+                                where praise has been silent. Unlock my hands where surrender has been withheld. Teach
+                                me to worship You in spirit and in truth, not for how it looks, but for who You are. I
+                                give You permission to move freely in me.</td>
+                            <td><strong>Silent Surrender</strong><br>• Sit quietly.<br>• Place a hand on your
+                                heart.<br>• Say nothing, just focus on God's presence.<br>• Allow God to freely enter
+                                your heart, mind, and spirit with no interruption or hesitation.</td>
+                        </tr>
+
+                        <tr>
+                            <td class="day">11 May, Monday<br><strong>Silencing the Voice of "NOT YET"</strong><br>2
+                                Corinthians 10:5
+                                <br />
+                                <a href="#" class="video-link"><strong>9AM:</strong> <em>Top of the Monzaa</em></a>
+                                <br />
+                                <a href="#" class="video-link"><strong>3PM:</strong> <em>Stars Pray</em></a>
+                                <br />
+                                <a href="#" class="video-link"><strong>6PM:</strong> <em>Self-Denial Amplified</em></a>
+                            </td>
+                            <td>The voice that says "not yet" often disguises itself as wisdom, but it is doubt, fear,
+                                and procrastination. Today, you reclaim authority over your thoughts. You are no longer
+                                postponing obedience or delaying growth. God's timing is now, and you are able to move
+                                forward with Him.</td>
+                            <td>God, help me recognize the voices in my mind that oppose Your truth. Teach me to
+                                challenge every thought that keeps me stuck or afraid. Replace hesitation with faith and
+                                strengthen me to act when You call me forward. Amen.</td>
+                            <td>Throughout the day, notice when "not yet," "I can't," or "I'm not ready" arises. Pause
+                                and write down:<br>• What am I afraid of right now?<br>• What would faith say
+                                instead?<br>• Speak the faith response aloud and take one small action in obedience.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="day">12 May, Tuesday<br><strong>Momentum: Moving Like I Mean It</strong><br>James
+                                2:17
+                                <br />
+                                <a href="#" class="video-link"><strong>9AM:</strong> <em>Top of the Monzaa</em></a>
+                                <br />
+                                <a href="#" class="video-link"><strong>3PM:</strong> <em>Stars Pray</em></a>
+                                <br />
+                                <a href="#" class="video-link"><strong>6PM:</strong> <em>Self-Denial Amplified</em></a>
+                            </td>
+                            <td>Momentum is built through consistent, intentional action. Faith without works is
+                                stagnant. Today is about proving to yourself that you can move forward, even when
+                                motivation feels low. Small steps, taken consistently, create unstoppable progress.</td>
+                            <td>Lord, strengthen my discipline and help me move with intention. When I feel unmotivated
+                                or distracted, remind me that obedience creates momentum. Teach me to honor small steps
+                                and trust that You bless consistent effort. Amen.</td>
+                            <td>Choose one task you have been avoiding because it feels overwhelming. Before starting,
+                                pray and dedicate the effort to God. Set a 10-minute timer and work with full focus.
+                                Afterward, journal:<br>• How did movement change how it felt?<br>• What did I learn
+                                about myself?</td>
+                        </tr>
+
+                        <tr>
+                            <td class="day">13 May, Wednesday<br><strong>Becoming Who I Was Afraid to
+                                    Be</strong><br>Joshua 1:9
+                                <br />
+                                <a href="#" class="video-link"><strong>9AM:</strong> <em>Top of the Monzaa</em></a>
+                                <br />
+                                <a href="#" class="video-link"><strong>3PM:</strong> <em>Stars Pray</em></a>
+                                <br />
+                                <a href="#" class="video-link"><strong>6PM:</strong> <em>Self-Denial Amplified</em></a>
+                            </td>
+                            <td>Growth often requires leaving behind familiar versions of yourself. The person you are
+                                becoming may feel uncomfortable, but that discomfort is proof of expansion. Fear no
+                                longer gets to decide your future. Today, you step into courage and allow yourself to
+                                grow into who God designed you to be.</td>
+                            <td>God, I acknowledge the fear I feel around growth and change. Give me the courage to step
+                                into the person You are shaping me to be. Help me trust that who I am becoming is safe
+                                in Your hands. Amen.</td>
+                            <td>Write a letter to your future self who is walking confidently in God's purpose. Let that
+                                version of you speak encouragement, gratitude, and truth into your current season. After
+                                writing, underline one sentence that stands out and carry it with you today.</td>
+                        </tr>
+
+                        <tr>
+                            <td class="day">14 May, Thursday<br><strong>Living Unlocked, Walking
+                                    Unstoppable</strong><br>Romans 8:37
+                                <br />
+                                <a href="#" class="video-link"><strong>9AM:</strong> <em>Top of the Monzaa</em></a>
+                                <br />
+                                <a href="#" class="video-link"><strong>3PM:</strong> <em>Stars Pray</em></a>
+                                <br />
+                                <a href="#" class="video-link"><strong>6PM:</strong> <em>Self-Denial Amplified</em></a>
+                            </td>
+                            <td>This final day is about embodiment. You are no longer waiting, doubting, or holding
+                                back. You are walking in freedom, authority, and confidence rooted in Christ. You live
+                                unlocked — no chains, no limits, no hesitation. This is not a moment; it is a lifestyle.
+                            </td>
+                            <td>Lord, thank You for the freedom You have given me. Help me live each day aware of Your
+                                victory and strength within me. Teach me to walk boldly, love freely, and trust You
+                                fully as I continue this journey. Amen.</td>
+                            <td>Take a slow, intentional walk. With each step, speak a word that reflects your identity
+                                in Christ. Words like <em>free, strong, loved, confident, victorious</em>, etc.
+                                <br><br>After the walk, write a short commitment statement beginning with:<br>
+                                <strong>"From this day forward, I choose to live unlocked by …"</strong>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="program" class="section">
+            <div class="section">
+                <h2>5. Reading Recommendations</h2>
+                <div class="grid">
+                    <div>
+                        <h4>Sunbeams & Allen Stars</h4>
+                        <ul>
+                            <li><strong>How Many Ways Can You Say Hello?</strong> by Refiloe Moahloli</li>
+                            <li><strong>Journey to Jo'burg</strong> by Beverley Naidoo</li>
+                            <li><strong>Ouma Ruby's Secret</strong> by Chris van Wyk</li>
+                            <li><strong>Mpumi's Magic Beads</strong> by Lebohang Masango</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Youth & Young Adults</h4>
+                        <ul>
+                            <li><strong>When the Ground Is Hard</strong> by Malla Nunn</li>
+                            <li><strong>Born a Crime</strong> by Trevor Noah</li>
+                            <li><strong>I Write What I Like</strong> by Steve Biko</li>
+                            <li><strong>Snitch</strong> by Edyth Bulbring</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <section class="preview-section no-print" id="watchlist">
+                <h2>NOW WATCHING</h2>
+                <div class="preview-stage">
+                    <div class="preview-info">
+                        <span class="preview-tag">ALLEN STARS & MOTHER SUNBEAMS</span>
+                        <h3 id="feat-title">The Fiery Furnace</h3>
+                        <p id="feat-desc">Superbook</p>
+                        <div style="margin-top: 20px;">
+                            <a href="https://www.youtube.com/watch?v=Hd0s6gBDyc4" target="_blank" class="btn-submit"
+                                style="font-size: 1.2rem; padding: 10px 25px;">Open on YouTube</a>
+                        </div>
+                    </div>
+                    <div class="preview-video-container">
+                        <iframe id="main-player"
+                            src="https://www.youtube.com/embed/Hd0s6gBDyc4?autoplay=1&mute=1&loop=1&playlist=Hd0s6gBDyc4"
+                            allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div class="preview-stage">
+                    <div class="preview-info">
+                        <span class="preview-tag">YOUTH & YOUNG ADULTS</span>
+                        <h3 id="feat-title">My Father Is in Charge</h3>
+                        <p id="feat-desc">Rorisang Thandekiso</p>
+                        <div style="margin-top: 20px;">
+                            <a href="http://www.youtube.com/watch?v=YWT34Z0PvCA" target="_blank" class="btn-submit"
+                                style="font-size: 1.2rem; padding: 10px 25px;">Open on YouTube</a>
+                        </div>
+                    </div>
+                    <div class="preview-video-container">
+                        <iframe id="main-player"
+                            src="http://www.youtube.com/embed/YWT34Z0PvCA?autoplay=1&mute=1&loop=1&playlist=YWT34Z0PvCA"
+                            allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <h2 style="margin-top: 60px;">NOW LISTENING</h2>
+                <div class="video-grid">
+                    <div class="video-card"
+                        style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div
+                            style="background: var(--light-green); padding: 30px 20px; text-align: center; border-bottom: 3px solid var(--green);">
+                            <svg width="50" height="50" viewBox="0 0 24 24" fill="var(--green)"
+                                style="margin-bottom: 15px;">
+                                <path
+                                    d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+                            </svg>
+                            <h3 style="color: var(--green); margin-bottom: 10px; font-size: 1.4rem;">Self-Denial Vol. 1
+                            </h3>
+                            <span class="preview-tag" style="margin: 0 auto; display: block;">AMPLIFIED</span>
+                        </div>
+                        <div class="video-info" style="text-align: center; padding: 25px;">
+                            <a href="https://music.youtube.com/playlist?list=PLseV2bG_Tuxv2FwOrkVlLeZfRMAAEorH3&si=j_mL8Us7KJE2JfTl"
+                                target="_blank" class="btn-submit"
+                                style="font-size: 1rem; padding: 12px 25px; width: 100%; border-width: 3px;">Listen on
+                                YT Music</a>
+                        </div>
+                        
+                    </div>
+
+                    <div class="video-card"
+                        style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div
+                            style="background: var(--light-green); padding: 30px 20px; text-align: center; border-bottom: 3px solid var(--green);">
+                            <svg width="50" height="50" viewBox="0 0 24 24" fill="var(--green)"
+                                style="margin-bottom: 15px;">
+                                <path
+                                    d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+                            </svg>
+                            <h3 style="color: var(--green); margin-bottom: 10px; font-size: 1.4rem;">Self-Denial Vol. 2</h3>
+                            <span class="preview-tag" style="margin: 0 auto; display: block;">AFTER PARTY</span>
+                        </div>
+                        <div class="video-info" style="text-align: center; padding: 25px;">
+                            <a href="https://music.youtube.com/playlist?list=PLseV2bG_Tuxudl46pdJJqpGbdy0t5Ds1S&si=Jc-wWzmxjBNtKMPM"
+                                target="_blank" class="btn-submit"
+                                style="font-size: 1rem; padding: 12px 25px; width: 100%; border-width: 3px;">Listen on
+                                YT Music</a>
+                        </div>
+                    </div>
+
+                    <div class="video-card"
+                        style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div
+                            style="background: var(--light-green); padding: 30px 20px; text-align: center; border-bottom: 3px solid var(--green);">
+                            <svg width="50" height="50" viewBox="0 0 24 24" fill="var(--green)"
+                                style="margin-bottom: 15px;">
+                                <path
+                                    d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+                            </svg>
+                            <h3 style="color: var(--green); margin-bottom: 10px; font-size: 1.4rem;">Self-Denial Vol. 3
+                            </h3>
+                            <span class="preview-tag" style="margin: 0 auto; display: block;">YANOS</span>
+                        </div>
+                        <div class="video-info" style="text-align: center; padding: 25px;">
+                            <a href="https://music.youtube.com/playlist?list=PLseV2bG_TuxtzSo_aZDqVhLkEHsn26ce-&si=vO7lGBqAfpGDiIko"
+                                target="_blank" class="btn-submit"
+                                style="font-size: 1rem; padding: 12px 25px; width: 100%; border-width: 3px;">Listen on
+                                YT Music</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section">
+                <h2>7. Self-Denial Watchlist</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Theme</th>
+                            <th>Sunbeams & Stars</th>
+                            <th>Youth & Young Adults</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Thurs, 7 May</td>
+                            <td>The Key Is Always In God's Hand</td>
+                            <td><a href="http://www.youtube.com/watch?v=Hd0s6gBDyc4" class="video-link">The Fiery
+                                    Furnace</a><br>Superbook</td>
+                            <td><a href="http://www.youtube.com/watch?v=YWT34Z0PvCA" class="video-link">My Father Is
+                                    in
+                                    Charge</a><br> Rorisang Thandekiso</td>
+                        </tr>
+                        <tr>
+                            <td>Fri, 8 May</td>
+                            <td>Unlocking Self-Limiting Behaviors</td>
+                            <td><a href="http://www.youtube.com/watch?v=wTglXGJ0xxo" class="video-link">Gideon: The
+                                    Warrior</a><br>Superbook</td>
+                            <td><a href="http://www.youtube.com/watch?v=hkr1clGVLco" class="video-link">There's a
+                                    War Inside Me</a><br> Khaya Mthethwa</td>
+                        </tr>
+                        <tr>
+                            <td>Sat, 9 May</td>
+                            <td>The Power of "I Am Ready"</td>
+                            <td><a href="http://www.youtube.com/watch?v=dMoekXiJw_A" class="video-link">Samuel and
+                                    the Call of God</a><br>Superbook</td>
+                            <td><a href="http://www.youtube.com/watch?v=xTGRPLdSb4w" class="video-link">Stay
+                                    Awake</a><br> Philip Mitchell</td>
+                        </tr>
+                        <tr>
+                            <td>Sun, 10 May</td>
+                            <td>Self Denial Sunday</td>
+                            <td><a href="http://www.youtube.com/watch?v=9H6j-HsV8jk" class="video-link">Peter's
+                                    Denial</a><br>Superbook</td>
+                            <td><a href="http://www.youtube.com/watch?v=VgEuTSS1HRc" class="video-link">God First
+                                </a><br>Rorisang Thandekiso</td>
+                        </tr>
+                        <tr>
+                            <td>Mon, 11 May</td>
+                            <td>The Voice of "Not Yet"</td>
+                            <td><a href="http://www.youtube.com/watch?v=-YXtoJHPe2c"
+                                    class="video-link">Lazarus</a><br>Superbook
+                            </td>
+                            <td><a href="http://www.youtube.com/watch?v=j2BUzGcC1ig" class="video-link">The Power of
+                                    Prayer</a><br> Uviwe Mkosana</td>
+                        </tr>
+                        <tr>
+                            <td>Tues, 12 May</td>
+                            <td>Momentum: Moving Like I Mean It</td>
+                            <td><a href="http://www.youtube.com/watch?v=BYANFchuQeQ" class="video-link">The Walls of
+                                    Jericho</a><br>Superbook</td>
+                            <td><a href="http://www.youtube.com/watch?v=4up1kCSyG34" class="video-link">Growing
+                                    Through Storms</a><br> Philip Mitchell</td>
+                        </tr>
+                        <tr>
+                            <td>Wed, 13 May</td>
+                            <td>Becoming Who I Was Afraid To Be</td>
+                            <td><a href="http://www.youtube.com/watch?v=OjqXb9jAZxI" class="video-link">Esther: For
+                                    Such a Time as This</a><br>Superbook</td>
+                            <td><a href="http://www.youtube.com/watch?v=GAC-USf5o4k" class="video-link">IHAN
+                                    Session</a><br> Rorisang Thandekiso</td>
+                        </tr>
+                        <tr>
+                            <td>Thurs, 14 May</td>
+                            <td>Living Unlocked, Walking Unstoppable</td>
+                            <td><a href="http://www.youtube.com/watch?v=32_Izk21ktw" class="video-link">A Giant
+                                    Adventure</a><br> Superbook</td>
+                            <td><a href="http://www.youtube.com/watch?v=vNoO3YQAPNM" class="video-link">Break
+                                    Free</a><br> Philip Mitchell</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="timeline" class="section">
+            <div class="section">
+                <h2>6. Self-Denial Timeline</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Event</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><s>24 April, 2026</s></td>
+                            <td>
+                                Contest Submissions due for Feedback at the Becoming The Light Seminar & Leadership
+                                Indaba
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><s>30 April, 2026</s></td>
+                            <td>Self-Denial Week Program Released</td>
+                        </tr>
+                        <tr>
+                            <td>7-14 May, 2026</td>
+                            <td>Self-Denial Week</td>
+                        </tr>
+                        <tr>
+                            <td>15 May 2026, 23:59</td>
+                            <td>Final Contest Submission Deadline (MPowered Conference)</td>
+                        </tr>
+                        <tr>
+                            <td>17 May 2026 <b>(TBC)</b></td>
+                            <td>Virtual session announcing results</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="contest" class="section">
+            <h2>7. Contest Expressions</h2>
             <p>Click a category to expand the full participation and submission details.</p>
 
             <div class="contest-accordion">
-
                 <div class="accordion-item">
                     <div class="accordion-header">
-                        <h3>Artistic Expressions</h3>
+                        <h3>Artistic Expressions </h3>
                         <div class="icon"></div>
                     </div>
                     <div class="accordion-content">
@@ -683,104 +1468,104 @@
                         </p>
                     </div>
                 </div>
-
             </div>
-        </div>
-        <!--
-        <div class="form-wrapper">
-            <iframe src="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true" width="100%"
-                height="800" frameborder="0" marginheight="0" marginwidth="0">
-                Loading submission portal…
-            </iframe>
-        </div>
 
-        <style>
-            .form-wrapper {
-                border: 10px solid #014421;
-                border-radius: 25px;
-                overflow: hidden;
-                background: #f9ffe3;
-                box-shadow: 15px 15px 0px rgba(1, 68, 33, 0.2);
-            }
-        </style>
-    -->
-
-        <div class="submission-cta">
-            <a href="https://forms.gle/GXLoX3rEvT5rxi6u6" target="_blank" class="btn-submit">
-                Click Here to Submit Entry
-            </a>
-            <p class="deadline-text">Final Deadline: 15 May 2026, 23:59</p>
-        </div>
-
-        <style>
-            /* CSS: Add this to your <style> block */
-            .submission-cta {
-                text-align: center;
-                padding: 40px;
-                background: var(--green);
-                /* #014421 */
-                border-radius: 20px;
-                margin-top: 30px;
-            }
-
-            .btn-submit {
-                display: inline-block;
-                background-color: #f9ffe3;
-                /* Your Cream Color */
-                color: #014421;
-                /* Your Deep Green */
-                font-family: 'Shrikhand', cursive;
-                font-size: 1.8rem;
-                padding: 20px 50px;
-                text-decoration: none;
-                border-radius: 50px;
-                border: 4px solid #014421;
-                box-shadow: 8px 8px 0px #bcd64d;
-                /* Groovy accent shadow */
-                transition: all 0.2s ease;
-                text-transform: uppercase;
-            }
-
-            .btn-submit:hover {
-                transform: translate(-4px, -4px);
-                box-shadow: 12px 12px 0px #000;
-                background-color: #fff;
-            }
-
-            .btn-submit:active {
-                transform: translate(4px, 4px);
-                box-shadow: none;
-            }
-
-            .deadline-text {
-                color: #f9ffe3;
-                margin-top: 20px;
-                font-weight: bold;
-                letter-spacing: 1px;
-            }
-        </style>
-
+            <div class="submission-cta">
+                <a href="https://forms.gle/GXLoX3rEvT5rxi6u6" target="_blank" class="btn-submit">
+                    Click Here to Submit Entry
+                </a>
+                <p class="deadline-text">Final Deadline: 15 May 2026, 23:59</p>
+            </div>
+        </section>
     </div>
-    <script>
-        function toggleReadMore() {
-            const content = document.querySelector('.read-more-content');
-            const toggle = document.querySelector('.read-toggle');
 
-            if (content.style.display === "none") {
-                content.style.display = "block";
-                toggle.textContent = "Close";
-            } else {
-                content.style.display = "none";
-                toggle.textContent = "Read more";
+    <div class="floating-cta">
+        <a href="https://forms.gle/GXLoX3rEvT5rxi6u6" target="_blank" class="fab fab-primary">
+            Submit Entry
+        </a>
+
+        <button onclick="window.print()" class="fab fab-secondary">
+            Download Program
+        </button>
+
+        <a href="https://chat.whatsapp.com/Hff8XibZ6sxAx3A6U0RMqI" target="_blank" class="fab fab-whatsapp">
+            Get WhatsApp Reminders
+        </a>
+    </div>
+
+    <script>
+        // --- 30 SEC AUTO-SWIPE LOGIC ---
+        const scrollContainer = document.getElementById("story-scroll");
+        const barContainer = document.getElementById("progress-bars");
+        const slides = document.querySelectorAll(".story-slide");
+        const DURATION = 30000; // 30 Seconds
+        let activeIndex = 0;
+        let startTime = Date.now();
+        let animationFrame;
+
+        if (slides.length > 0 && barContainer && scrollContainer) {
+            // Create bars
+            slides.forEach((_, i) => {
+                const bar = document.createElement("div");
+                bar.className = "progress-bar";
+                bar.innerHTML = `<div class="progress-fill" id="fill-${i}"></div>`;
+                barContainer.appendChild(bar);
+            });
+
+            function updateProgress() {
+                const elapsed = Date.now() - startTime;
+                const progress = (elapsed / DURATION) * 100;
+
+                const fills = document.querySelectorAll(".progress-fill");
+
+                // Fill previous bars completely
+                fills.forEach((fill, i) => {
+                    if (i < activeIndex) fill.style.width = "100%";
+                    else if (i > activeIndex) fill.style.width = "0%";
+                    else fill.style.width = `${progress}%`;
+                });
+
+                if (elapsed >= DURATION) {
+                    nextSlide();
+                } else {
+                    animationFrame = requestAnimationFrame(updateProgress);
+                }
             }
+
+            function nextSlide() {
+                activeIndex = (activeIndex + 1) % slides.length;
+                const scrollX = activeIndex * scrollContainer.clientWidth;
+                scrollContainer.scrollTo({ left: scrollX, behavior: "smooth" });
+                resetTimer();
+            }
+
+            function resetTimer() {
+                cancelAnimationFrame(animationFrame);
+                startTime = Date.now();
+                updateProgress();
+            }
+
+            // Manual swipe detection
+            scrollContainer.addEventListener("scroll", () => {
+                const newIndex = Math.round(
+                    scrollContainer.scrollLeft / scrollContainer.clientWidth,
+                );
+                if (newIndex !== activeIndex) {
+                    activeIndex = newIndex;
+                    resetTimer();
+                }
+            });
+
+            // Start
+            updateProgress();
         }
-        // Simple script to handle accordion toggling
+
+        // Script to handle accordion toggling
         document.querySelectorAll('.accordion-header').forEach(header => {
             header.addEventListener('click', () => {
                 const item = header.parentElement;
                 item.classList.toggle('active');
 
-                // Optional: Close other items when one is opened
                 document.querySelectorAll('.accordion-item').forEach(otherItem => {
                     if (otherItem !== item) {
                         otherItem.classList.remove('active');
