@@ -141,7 +141,7 @@
         }
 
         .hero-title {
-            font-size: clamp(3.5rem, 10vw, 6rem);
+            font-size: clamp(2.5rem, 10vw, 6rem);
             line-height: 1;
             text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
         }
@@ -153,11 +153,12 @@
             background: #014421;
             padding: 60px 0;
             width: 100%;
-            /* was 100vw */
+            text-align: center;
         }
 
         .stories-header {
             text-align: center;
+            justify-content: center;
             color: var(--accent);
             margin-bottom: 20px;
         }
@@ -695,10 +696,203 @@
             font-weight: bold;
             letter-spacing: 1px;
         }
+
+        /*============
+           Arrow Down
+           ===========*/
+        .scroll-arrow {
+            display: block;
+            margin: 40px auto 0;
+            width: 50px;
+            height: 50px;
+            color: var(--bg);
+            transition: transform 0.3s ease;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-arrow svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /*======================== 
+        Sticky Announcement Bar
+        =========================*/
+
+        .announcement-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, var(--green) 0%, #012b15 100%);
+            color: var(--bg);
+            z-index: 10000;
+            padding: 8px 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            font-family: 'Outfit', sans-serif;
+            box-sizing: border-box;
+            transform: translateZ(0);
+            will-change: transform;
+        }
+
+        .announcement-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 0;
+        }
+
+        .announcement-top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .announcement-label {
+            font-family: 'Shrikhand', cursive;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+        }
+
+        .countdown {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 36px;
+        }
+
+        .countdown-number {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 1.3rem;
+            line-height: 1;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 3px 7px;
+            border-radius: 8px;
+            min-width: 32px;
+            text-align: center;
+        }
+
+        .countdown-unit {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        .countdown-separator {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--accent);
+            margin-top: -10px;
+        }
+
+        .deadline-badge {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        @media (max-width: 600px) {
+            .announcement-content {
+                gap: 3px;
+            }
+
+            .announcement-label {
+                font-size: 1rem;
+            }
+
+            .countdown-number {
+                font-size: 1rem;
+                min-width: 26px;
+                padding: 3px 5px;
+            }
+
+            .countdown-unit {
+                font-size: 0.5rem;
+            }
+
+            .deadline-badge {
+                font-size: 0.65rem;
+                padding: 2px 8px;
+            }
+
+            body {
+                padding-top: 25px;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <div class="announcement-bar">
+    <div class="announcement-content">
+        <div class="announcement-top">
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <span class="countdown-number" id="days">00</span>
+                    <span class="countdown-unit">Days</span>
+                </div>
+                <div class="countdown-separator">:</div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="hours">00</span>
+                    <span class="countdown-unit">Hours</span>
+                </div>
+                <div class="countdown-separator">:</div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="minutes">00</span>
+                    <span class="countdown-unit">Mins</span>
+                </div>
+                <div class="countdown-separator">:</div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="seconds">00</span>
+                    <span class="countdown-unit">Secs</span>
+                </div>
+            </div>
+        </div>
+        <span class="deadline-badge"> SELF-DENIAL CONTEST DEADLINE: 15 May 2026</span>
+    </div>
+</div>
+
     <div class="print-only page-header">
         UNLOCKING ME: I SURRENDER • 4M Digital Booklet
     </div>
@@ -723,9 +917,12 @@
             <p style="font-size: 1.4rem; letter-spacing: 4px; margin-top: 20px">
                 Isaiah 22:22
             </p>
-            <button onclick="window.print()" class="fbtn" style="margin-top: 30px; font-size: 1.2rem">
-                Download Program (PDF)
-            </button>
+            <a href="#toc" class="scroll-arrow" aria-label="Scroll to Table of Contents">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </a>
         </div>
     </section>
 
@@ -806,7 +1003,7 @@
         </section>
 
         <div class="print-only divider-page">
-            <h1 style="font-size: 5rem">PART 1:<br />MISSION</h1>
+            <h1 style="font-size: 5rem">SELF-DENIAL<br />PROGRAM</h1>
         </div>
 
         <section id="history" class="section">
@@ -952,7 +1149,8 @@
                                 <td>Sit quietly with your hands open on your lap. Close your eyes and breathe deeply.
                                     <br><br>Ask God: <em>What are You inviting me into right now?</em> Sit with whatever
                                     comes up; no rushing, no correcting. Write down any thoughts, emotions, or
-                                    impressions afterward.</td>
+                                    impressions afterward.
+                                </td>
                             </tr>
                             <tr>
                                 <td class="day">10 May, Sunday<br><strong>Self Denial Sunday</strong><br>Luke 9:23<br />
@@ -1180,10 +1378,10 @@
                             </svg>
                             <h3 style="color: var(--green); margin-bottom: 10px; font-size: 1.4rem;">Self-Denial Vol. 3
                             </h3>
-                            <span class="preview-tag" style="margin: 0 auto; display: block;">YANOS</span>
+                            <span class="preview-tag" style="margin: 0 auto; display: block;">CLAP & TAP</span>
                         </div>
                         <div class="video-info" style="text-align: center; padding: 25px;">
-                            <a href="https://music.youtube.com/playlist?list=PLseV2bG_TuxtzSo_aZDqVhLkEHsn26ce-&si=vO7lGBqAfpGDiIko"
+                            <a href="https://music.youtube.com/playlist?list=PLseV2bG_Tuxvsfu0SlKvi3f5T6jCbxK7a&si=OlIrXZpFANYWPn4g"
                                 target="_blank" class="btn-submit"
                                 style="font-size: 1rem; padding: 12px 25px; width: 100%; border-width: 3px;">Listen on
                                 YT Music</a>
@@ -1391,7 +1589,8 @@
                             • <strong>Digital Film:</strong> Max 3 minutes; max 1GB.
                         </div>
                         <p><strong>Submission:</strong> One submission per entry; include a photo of the participant in
-                            <strong>Green & White Uniform</strong>.</p>
+                            <strong>Green & White Uniform</strong>.
+                        </p>
                     </div>
                 </div>
                 <div class="accordion-item">
@@ -1507,6 +1706,35 @@
                 });
             });
         });
+        // Countdown timer
+        const deadline = new Date('2026-05-15T23:59:59');
+
+        function updateCountdown() {
+            const now = new Date();
+            const diff = deadline - now;
+
+            if (diff <= 0) {
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        // Update immediately and then every second
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
     </script>
 </body>
 
